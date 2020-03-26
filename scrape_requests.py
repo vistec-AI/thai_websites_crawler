@@ -6,7 +6,7 @@ import tqdm
 import multiprocessing
 from pythainlp.ulmfit import rm_useless_spaces
 
-def get_parallel_texts(parallel_url, timeout=(10,10), tags = ['h1','h2','h3','h4','h5','h6','p']):
+def get_parallel_texts(parallel_url, timeout=(10,10), tags = ['h1','h2','h3','h4','h5','h6','p','li','span']):
     try:
         with requests.get(parallel_url['en_url'],timeout=timeout) as r:
             soup_en = BeautifulSoup(r.content,features='html.parser')
