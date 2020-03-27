@@ -15,8 +15,8 @@ for k in paracrawl_requests:
         
 #clean
 paracrawl = pd.DataFrame(new_paracrawl).dropna().drop_duplicates().reset_index(drop=True)
-paracrawl['en_text'] = paracrawl.en_text.map(lambda x: rm_useless_spaces(str(x).replace('\n',' ').replace('\t',' ').replace('\r','')))
-paracrawl['th_text'] = paracrawl.th_text.map(lambda x: rm_useless_spaces(str(x).replace('\n',' ').replace('\t',' ').replace('\r','')))
+paracrawl['en_text'] = paracrawl.en_text.map(lambda x: rm_useless_spaces(str(x).replace('\n',' ').replace('\t',' ').replace('\r','').strip()))
+paracrawl['th_text'] = paracrawl.th_text.map(lambda x: rm_useless_spaces(str(x).replace('\n',' ').replace('\t',' ').replace('\r','').strip()))
 paracrawl['en_tokens'] = paracrawl.en_text.map(lambda x: len(x.split()))
 def char_percent(pattern,text):
     return len(re.findall(pattern,text)) / (len(text)+0.01)
