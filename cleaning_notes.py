@@ -7,6 +7,7 @@ import tensorflow_hub as hub
 import tensorflow_text
 import tensorflow as tf
 from sklearn.metrics.pairwise import cosine_similarity
+from pythainlp.ulmfit import rm_useless_spaces
 
 #get the json as a result of `scrape_requests.py`
 paracrawl_requests = json.load(open('data/paracrawl_requests.json'))
