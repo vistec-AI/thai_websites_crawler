@@ -8,3 +8,4 @@ Scripts for crawling the 500 most visited websites in Thailand according to [Ale
 3. `scrape_urls.py` - scrape all URLs from `https://domain/sitemap.xml`
 4. `clean_urls.py` - send head requests to verify that URLs return `200`
 5. `scrape_requests.py` - scrape URL contents and align by tags
+6. `check_health.py` - simple dataset health checkup script for scraped datasets
