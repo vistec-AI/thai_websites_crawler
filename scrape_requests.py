@@ -6,7 +6,8 @@ import tqdm
 import multiprocessing
 from pythainlp.ulmfit import rm_useless_spaces
 
-def get_parallel_texts(parallel_url, timeout=(10,10), tags = ['h1','h2','h3','h4','h5','h6','p','li','span']):
+def get_parallel_texts(parallel_url, timeout=(10,10), use_min=True, 
+                       tags = ['h1','h2','h3','h4','h5','h6','p','li','span','strong']):
     try:
         with requests.get(parallel_url['en_url'],timeout=timeout) as r:
             soup_en = BeautifulSoup(r.content,features='html.parser')
@@ -17,20 +18,23 @@ def get_parallel_texts(parallel_url, timeout=(10,10), tags = ['h1','h2','h3','h4
         return None
           
     parallel_texts = []
+    
     for tag in tags:
         tags_en = soup_en.find_all(tag)
         tags_th = soup_th.find_all(tag)
-
+        
+        nb_tags = len(tags_en)
         if len(tags_en)!=len(tags_th):
-#             print(f'{tag} tags not paired. Skipping.')
-            continue
+            if use_min:
+                nb_tags = min(len(tags_en),len(tags_th))
+            else:
+                continue
         elif (len(tags_en)==0)|(len(tags_th)==0):
-#             print(f'{tag} tags do not exist. Skipping.')
             continue
-        else:
-            for tag_en, tag_th in zip(tags_en, tags_th):
-                parallel_texts.append({'en_text': rm_useless_spaces(tag_en.get_text(separator=" ")),
-                                       'th_text': rm_useless_spaces(tag_th.get_text(separator=" "))})
+        
+        for tag_en, tag_th in zip(tags_en[:nb_tags], tags_th[:nb_tags]):
+            parallel_texts.append({'en_text': rm_useless_spaces(tag_en.get_text(separator=" ")),
+                                   'th_text': rm_useless_spaces(tag_th.get_text(separator=" "))})
     return parallel_texts
 
 if __name__ == "__main__":
